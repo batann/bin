@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Navigate to the desired directory
+clear
+read -p 'Directory   >>>   ' abc
+cd $abc
+
+# Task 1: Remove non-UTF-8 characters from all filenames
+find . -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
+    # Use iconv to convert the filename to UTF-8, discarding non-UTF-8 characters
+    mv $file $(echo $file | iconv -f utf-8 -t utf-8 -c)
+done
+
+# Task 2: Remove all whitespaces from all filenames
+find . -maxdepth 1 -type f -name "* *" -print0 | while IFS= read -r -d '' file; do
+    # Use 'tr' to delete spaces from the filename
+    mv $file $(echo $file | tr -d '[:space:]')
+done
+
+find . -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
+mv $file $(echo $file  | sed 's/(.*)//g'| sed 's/\[.*\]//g' | sed 's/,//g' | sed 's/\!//g'|sed 's/-//g'|sed 's/@//g'|sed "s/'//g"|sed 's/../.g'|sed 's/&//g')
+done
+# Task 3: Remove all metadata from all files using mat2
+find . -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
+    mat2 --inplace $file
+done
+clear
+
+
+
+echo "Processing complete."
+
+
+

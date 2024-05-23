@@ -1,0 +1,53 @@
+#!/bin/bash
+#   ANSI CODE   ##################################################################
+Black='\033[0;30m'
+Red='\033[0;31m'
+Green='\033[0;32m'
+Blue='\033[0;34m'
+Purple='\033[0;35m'
+Cyan='\033[0;36m'
+Yellow='\033[1;33m'
+White='\033[1;37m'
+NC='\033[0m'
+
+hhh=$(wmctrl -l |grep Terminal|tail -n1|awk '{print $1}')
+transset -i $hhh 0.20
+###################################################################
+# Create a temporary script file
+TMP_SCRIPT=$(mktemp /tmp/countdown_script.XXXXXX)
+cat << 'EOL' > "$TMP_SCRIPT"
+Black='\033[0;30m'
+Red='\033[0;31m'
+Green='\033[0;32m'
+Blue='\033[0;34m'
+Purple='\033[0;35m'
+Cyan='\033[0;36m'
+Yellow='\033[1;33m'
+White='\033[1;37m'
+#!/bin/bash
+tput civis
+ggg=$(wmctrl -l |grep Terminal|tail -n2|head -n1|awk '{print $1}')
+
+clear
+echo -e ${Blue}'+--------------------------------------------------+'
+# Initialize a variable to store user input
+user_input=""
+# Continue prompting for input until Enter is pressed without entering any other text
+while true; do
+input=$(find /media/batan/100/Music/ -type f -name '*.mp3'|fzf)
+    if [ -z "$input" ]; then
+        break
+    fi
+    # Concatenate user input to the variable
+    user_input="${user_input}${input} && "
+done
+echo "#!/bin/bash" >> /home/batan/Music/temp.sh
+echo "/usr/bin/play $user_input" >> /home/batan/Music/temp.sh
+echo "exit" >> /home/batan/Music/temp.sh
+sudo chmod +x /home/batan/Music/temp.sh
+clear
+EOL
+/usr/bin/xfce4-terminal --hide-menubar --hide-scrollbar --geometry="160x50+0+0" -e "sudo -u batan bash $TMP_SCRIPT"
+/usr/bin/xfce4-terminal --color-text=yellow --color-bg=blue --zoom=+3 --hide-menubar --hide-scrollbar --geometry="100x1+0+0" -e "sudo -u batan bash /home/batan/Music/temp.sh" &&
+	rm ~/Music/temp.sh
+

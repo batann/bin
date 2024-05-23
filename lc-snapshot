@@ -1,0 +1,36 @@
+#!/bin/bash
+
+
+#CREATE USER
+abc=$(ls /home/snapshot/ba* |sed 's/.*\///g'|cut -c 1-3|sort -u|tail -n1)
+bcd=$(echo $abc|cut -c3)
+((bcd++))
+def=$(echo $abc|cut -c 1-2)$bcd
+user_name=$def
+isoo=$user_name.$(date +%j-%H).iso
+sudo useradd -m -r $user_name
+echo "$user_name:Ba7an?12982"|sudo chpasswd
+
+#CREATE SYSTEM SNAPSHOT
+
+sudo mx-snapshot --cli -r -z lz4 -l -Xhc -d /home/ -f $isoo
+
+#CREATE README
+
+touch /home/snapshot/README.$user_name.md
+echo -e "- date created	- $(date +%y-%m-%d)" >> /home/snapshot/README.$user_name.md
+echo -e "- user name	- $user_name" >> /home/snapshot/README.$user_name.md
+echo -e "- snapshot		- $isoo" >> /home/snapshot/README.$user_name.md
+echo -e "- scripts		- " >> /home/snapshot/README.$user_name.md
+echo -e "- comment		- " >> /home/snapshot/README.$user_name.md
+echo -e "- 10/10 batan 12982@tutanota.com - " >> /home/snapshot/README.$user_name.md
+clear
+echo -e "README.$user_name.md content:"
+echo -e "============================="
+echo -e ""
+cat /home/snapshot/README.$user_name.md
+echo -e ""
+echo -e "DONE"
+echo -e "===="
+
+

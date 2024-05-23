@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [[ -d /usr/bin/edge-tts ]]; then
+/usr/bin/edge-tts -t $(date +%H%M) --write-media time.wav
+/usr/bin/paplay time.wav
+else
+/home/batan/.local/bin/edge-tts -t $(date +%H:%M) --write-media time.wav
+/usr/bin/paplay time.wav
+fi
+rm time.wav
