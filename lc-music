@@ -1,14 +1,20 @@
-export FZF_DEFAULT_OPTS="  --layout=reverse --color=fg:#c0c0c0,fg+:#c0c0c0,bg:#000080,bg+:#000080 \
-  --color=hl:#1a7ada,hl+:#9ae6ff,info:#e0e000,marker:#3ee421 \
-  --color=prompt:#1700af,spinner:#8306ff,pointer:#8000ff,header:#00bf06 \
-  --color=border:#c0c0c0,preview-fg:#cdba08,preview-bg:#575656 \
-  --color=label:#3847ea,query:#d9d9d9 \
-  --border='sharp' --preview-window=down,3,'wrap' \
-  --padding='2' --margin='1' --prompt='' --marker='->' \
-  --pointer='>>' --separator='─' --scrollbar='│' --info='inline'"
-  --header="MP3 File to select:" \
-  # Display fzf menu and get the selected files
-selected_files=$(find /media/batan/100/Music -type f -name '*.mp3' | fzf --multi --preview 'echo {}')
+
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+  --color=fg:#8D8C9C,fg+:#8E9492,bg:#2B2E33,bg+:#2B2E33
+  --color=hl:#8D8C9C,hl+:#8D8C9C,info:#c4c477,marker:#8E9492
+  --color=prompt:#8E9492,spinner:#8E9492,pointer:#8E9492,header:#44adad
+  --color=border:#B9B6A7,scrollbar:#44adad,label:#44adad
+  --color=query:#d9d9d9
+  --border="double" --border-label=" [[[ LC-Linux ]]] " --border-label-pos="0" 
+  --padding="1" --margin="1" --prompt="->" --marker=">>"
+  --pointer="◆◆" --separator='─'  --scrollbar="│" --layout="reverse"
+  --info=default'
+  --preview-window=down:10%,"wrap"
+
+
+
+
+selected_files=$(find /home/batan/Music -type f -name '*.mp3' | fzf --multi --preview 'echo {}')
 
 # Check if any files were selected
 if [ -n "$selected_files" ]; then
